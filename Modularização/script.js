@@ -60,7 +60,7 @@ for (var i in divs) {
                 // Troca o jogador ou chama a IA
                 jogador = jogador == 'X' ? 'O' : 'X';
                 document.getElementById("status").innerText = "Jogador " + jogador + ", sua vez!";
-                if (contraIA && jogador == 'O') {
+                if (contraIA) {
                     AI();
                 }
             }
@@ -135,22 +135,23 @@ function bestAction(board, eu) {
         // Simula a jogada no tabuleiro
         var resultado = jogada(board, jogadas[i], eu);
         var valor = minimax(resultado, eu == 'X' ? 'O' : 'X', eu, maxDepth, -Infinity, Infinity);
-
         // Se a jogada atual é a melhor até agora
         if (valor > maiorValor) {
             maiorValor = valor;
             melhorJogada = jogadas[i];
         }
-        // Se o valor da jogada é igual ao melhor valor encontrado até agora
-        else if (valor == maiorValor) {
+        
+        // Se o valor da jogada e o valor do maior valor são iguais a 999, então a IA tem a possibilidade de ganhar iminentemente
+        else if (valor == 999 && maiorValor == 999) {
             // Criar uma cópia do tabuleiro
             let copiaTabuleiro = JSON.parse(JSON.stringify(board));
-            copiaTabuleiro[jogadas[i].row][jogadas[i].col] = 'O'; // Simula a jogada do adversário
+            let teste = JSON.parse(JSON.stringify(board));
+            copiaTabuleiro[jogadas[i].row][jogadas[i].col] = 'O';
+            console.log("melhor jogada antes de chamara funcao:",melhorJogada);
 
             // Verifica se a jogada leva a uma vitória iminente
-            if (verificarVitoriaIminente(copiaTabuleiro, 'O')) {
-                melhorJogada = jogadas[i];
-            }
+            melhorJogada = (verificarVitoriaIminente(teste, 'O')); 
+            console.log("melhor jogada depois de chamar a funcao:",melhorJogada);
         }
 
         if (modoDebug) console.log("Jogada: " + jogadas[i].row + "," + jogadas[i].col + " -> Valor: " + valor);
@@ -168,7 +169,9 @@ function verificarVitoriaIminente(board, jogador) {
                 board[row][col] = jogador;
                 if (checkWinner(board) == jogador) {
                     // Desfaz a jogada
+                    
                     board[row][col] = '';
+                    console.log("Jogada iminente: " + row + "," + col);
                     return { row: row, col: col };
                 }
                 // Desfaz a jogada
