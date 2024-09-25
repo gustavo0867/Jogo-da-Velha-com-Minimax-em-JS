@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Velha</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div>
+    <button onclick="iniciarContraIA('facil')">Jogar Contra IA (Fácil)</button>
+    <button onclick="iniciarContraIA('medio')">Jogar Contra IA (Médio)</button>
+    <button onclick="iniciarContraIA('dificil')">Jogar Contra IA (Difícil)</button>
+    <button onclick="iniciarContraJogador()">Jogar Contra Outro Jogador</button>
+  </div>
+
+  <div id="jogo">
+    <div id="c0,0"></div>
+    <div id="c0,1"></div>
+    <div id="c0,2"></div>
+    <div id="c1,0"></div>
+    <div id="c1,1"></div>
+    <div id="c1,2"></div>
+    <div id="c2,0"></div>
+    <div id="c2,1"></div>
+    <div id="c2,2"></div>
+  </div>
+
+  <div id="status">Clique em um botão para iniciar o jogo.</div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>

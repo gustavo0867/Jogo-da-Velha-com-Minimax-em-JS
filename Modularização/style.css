@@ -1,0 +1,21 @@
+#jogo {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+  }
+  
+  #jogo div {
+    border: 1px solid black;
+    line-height: 100px;
+    font-size: xx-large;
+    font-family: Arial;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  #status {
+    margin-top: 20px;
+    font-size: large;
+    font-weight: bold;
+  }
+  
