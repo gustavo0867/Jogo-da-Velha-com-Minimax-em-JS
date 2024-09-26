@@ -53,14 +53,14 @@ for (var i in divs) {
             // Verifica se há vencedor ou empate
             var winner = checkWinner(board);
             if (winner) {
-                setTimeout(() => { alert(winner + ' venceu!'); init(); }, 16);
+                setTimeout(() => { showModal(winner + ' venceu!'); }, 16);
             } else if (isFull(board)) {
-                setTimeout(() => { alert('Empate!'); init(); }, 16);
+                setTimeout(() => { showModal('Empate!'); }, 16);
             } else {
                 // Troca o jogador ou chama a IA
                 jogador = jogador == 'X' ? 'O' : 'X';
                 document.getElementById("status").innerText = "Jogador " + jogador + ", sua vez!";
-                if (contraIA) {
+                if (contraIA && jogador == 'O') {
                     AI();
                 }
             }
@@ -100,9 +100,9 @@ function AI() {
         // Verifica se a IA venceu ou houve empate
         var winner = checkWinner(board);
         if (winner) {
-            setTimeout(() => { alert(winner + ' venceu!'); init(); }, 16);
+            setTimeout(() => { showModal(winner + ' venceu!'); }, 16);
         } else if (isFull(board)) {
-            setTimeout(() => { alert('Empate!'); init(); }, 16);
+            setTimeout(() => { showModal('Empate!'); }, 16);
         } else {
             jogador = 'X';
             document.getElementById("status").innerText = "Jogador X, sua vez!";
@@ -140,21 +140,28 @@ function bestAction(board, eu) {
             maiorValor = valor;
             melhorJogada = jogadas[i];
         }
-        
+
         // Se o valor da jogada e o valor do maior valor são iguais a 999, então a IA tem a possibilidade de ganhar iminentemente
         else if (valor == 999 && maiorValor == 999) {
             // Criar uma cópia do tabuleiro
             let copiaTabuleiro = JSON.parse(JSON.stringify(board));
             let teste = JSON.parse(JSON.stringify(board));
             copiaTabuleiro[jogadas[i].row][jogadas[i].col] = 'O';
-            console.log("melhor jogada antes de chamara funcao:",melhorJogada);
+            
 
             // Verifica se a jogada leva a uma vitória iminente
-            melhorJogada = (verificarVitoriaIminente(teste, 'O')); 
-            console.log("melhor jogada depois de chamar a funcao:",melhorJogada);
+            melhorJogada = (verificarVitoriaIminente(teste, 'O'));
+            
         }
 
-        if (modoDebug) console.log("Jogada: " + jogadas[i].row + "," + jogadas[i].col + " -> Valor: " + valor);
+        if (modoDebug) {
+            console.log("Jogada: " + jogadas[i].row + "," + jogadas[i].col + " -> Valor: " + valor);
+            console.log("Tabuleiro resultante:");
+            console.table(resultado);
+            console.log("A jogada escolhida foi: " + melhorJogada.row + "," + melhorJogada.col);
+        }
+
+        
     }
 
     return melhorJogada;
@@ -169,10 +176,9 @@ function verificarVitoriaIminente(board, jogador) {
                 board[row][col] = jogador;
                 if (checkWinner(board) == jogador) {
                     // Desfaz a jogada
-                    
                     board[row][col] = '';
-                    console.log("Jogada iminente: " + row + "," + col);
-                        return { row: row, col: col };
+                    console.log("Jogada de vitória iminente: " + row + "," + col);
+                    return { row: row, col: col };
                 }
                 // Desfaz a jogada
                 board[row][col] = '';
@@ -253,3 +259,26 @@ function avaliarLinha(c1, c2, c3, jogador, oponente) {
 
     return score;
 }
+
+
+function showModal(message) {
+    var modal = document.getElementById('modal');
+    var modalMessage = document.getElementById('modalMessage');
+    modalMessage.innerText = message;
+    modal.style.display = 'flex';
+}
+
+document.getElementById('closeModal').onclick = function () {
+    closeModal();
+};
+document.getElementById('playAgainBtn').onclick = function () {
+    closeModal();
+    init(); // Reinicia o jogo
+};
+
+function closeModal() {
+    var modal = document.getElementById('modal');
+    modal.style.display = 'none';
+}
+
+
