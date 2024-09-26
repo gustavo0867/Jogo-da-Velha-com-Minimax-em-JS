@@ -172,7 +172,7 @@ function verificarVitoriaIminente(board, jogador) {
                     
                     board[row][col] = '';
                     console.log("Jogada iminente: " + row + "," + col);
-                    return { row: row, col: col };
+                        return { row: row, col: col };
                 }
                 // Desfaz a jogada
                 board[row][col] = '';
