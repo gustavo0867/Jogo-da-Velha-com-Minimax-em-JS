@@ -27,4 +27,4 @@ Um simples jogo da velha (tic-tac-toe) desenvolvido em JavaScript, que permite j
 
 ## Captura de tela
 
-![foto]()
+![foto](https://i.postimg.cc/SsTDHbLf/Captura-de-tela-2024-09-26-141703.png)
